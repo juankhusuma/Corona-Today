@@ -14,3 +14,6 @@ body {
 .card {
     @apply bg-white rounded overflow-hidden shadow-md relative;
 }
+.back-btn {
+    @apply opacity-0 md:opacity-100 bg-blue-600 shadow-lg text-3xl w-10 h-10 p-2 flex items-center justify-center text-white rounded-full absolute top-5 left-5 transition-all hover:bg-blue-400;
+}

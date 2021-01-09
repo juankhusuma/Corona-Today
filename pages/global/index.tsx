@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Link from "next/link"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NProgress from 'nprogress';
-interface CountryData {
+export interface CountryData {
     attributes: {
         OBJECTID: number;
         Country_Region: string;
@@ -15,7 +15,7 @@ interface CountryData {
         Active: number | null;
     }
 }
-interface WorldPopData {
+export interface WorldPopData {
     ok: boolean;
     body: {
         world_population
@@ -29,7 +29,7 @@ interface WorldPositive {
 }
 // This function just add , to an Interger
 // 1000000 -> 1,000,000
-const parseNum = (x: number): string => {
+export const parseNum = (x: number): string => {
     var parts = x.toString().split(".");
     parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,",");
     return parts.join(",");
@@ -51,7 +51,7 @@ interface Props {
     }
 }
 
-export default function Global({ world_data, world_pop_data, world_confirmed, world_recovered, world_deaths }: Props): JSX.Element {
+export default function National({ world_data, world_pop_data, world_confirmed, world_recovered, world_deaths }: Props): JSX.Element {
     const [worldData, setWorldData] = useState(world_data);
     const LastUpdate = new Date(worldData[0].attributes.Last_Update)
     //This function sorts the table
@@ -99,6 +99,8 @@ export default function Global({ world_data, world_pop_data, world_confirmed, wo
         NProgress.done()
     }
 
+    useEffect(()=>sort("OBJECTID"), [])
+
     const Month = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
 
     //The Table's index
@@ -108,6 +110,7 @@ export default function Global({ world_data, world_pop_data, world_confirmed, wo
             <Head>
                 <title>Corona Today | Global Case</title>
             </Head>
+            <img src="/corona.svg" className="w-7 md:w-10 animate-pulse"/>
             <h1 className="title pb-1 border-b text-gray-900 mb-2 border-gray-300">Global Case</h1>
             <h2 className="subtitle w-3/4 md:w-1/2 lg:w-1/3 text-center text-gray-700 mb-5">Jumlah kasus positif, kematian, dan kesembuhan untuk seluruh dunia</h2>
             
@@ -126,25 +129,26 @@ export default function Global({ world_data, world_pop_data, world_confirmed, wo
                     <hr/>
                 </div>
                 <div className="card w-60 p-3 m-2">
-                    <h1 className="font-bold text-center mb-2 pb-1 border-b border-gray-200">⏲  Data terakhir kali diperbaharui pada:</h1>
+                    <h1 className="font-bold text-center mb-2 pb-1 border-b border-gray-200">🕔 Data terakhir kali diperbaharui pada:</h1>
                     <p className="font-semibold text-gray-700 text-center">{`${LastUpdate.getDate()}`} {`${Month[LastUpdate.getMonth()]}`} {`${LastUpdate.getFullYear()}`}</p>
                     <p className="font-semibold text-gray-700 text-center">{`${LastUpdate.getHours()}`} : {`${LastUpdate.getMinutes()}`} : {`${LastUpdate.getSeconds()}`} ICT</p>
                 </div>
             </div>
             
             <h3 className="font-semibold mt-10 text-center">
-                Urutkan data bedasarkan:
+                Urutkan data berdasarkan:
                 <select className="ml-2 font-bold text-pink-600 pt-1 pb-1 pl-2 pr-2 text-center shadow-md rounded-full" onChange={(e) => { sort(e.target.value) }}>
-                    <option className="text-gray-800 font-bold" value="Confirmed">Kasus Total</option>                    
-                    <option className="text-gray-800 font-bold" value="OBJECTID">Nama Negara</option>
-                    <option className="text-gray-800 font-bold" value="Deaths">Kasus Kematian</option>
-                    <option className="text-gray-800 font-bold" value="Recovered">Kasus Kesembuhan</option>
-                    <option className="text-gray-800 font-bold" value="Active">Kasus Aktif</option>
+                    <option className="text-gray-800 font-bold" value="OBJECTID">Nama Negara</option>                    
+                    <option className="text-gray-800 font-bold" value="Confirmed">Angka Positif Total</option>
+                    <option className="text-gray-800 font-bold" value="Deaths">Angka Kematian</option>
+                    <option className="text-gray-800 font-bold" value="Recovered">Angka Pasien Sembuh</option>
+                    <option className="text-gray-800 font-bold" value="Active">Angka Pasien Aktif</option>
                 </select>                
             </h3>
 
             {/* Data Table End */}
             <div className="mt-3 w-full md:w-3/4 h-96 overflow-y-auto overflow-x-auto flex flex-col items-center justify-items-center font-Pro">
+                <Link href="/"><a className="back-btn">&larr;</a></Link>
                 <table className=" w-full text-left table-auto table-row md:table">
                     <thead>
                         <tr>
@@ -153,7 +157,7 @@ export default function Global({ world_data, world_pop_data, world_confirmed, wo
                             <th className="p-1 md:p-2 text-sm md:text-lg border-gray-300 text-gray-900 text-center bg-gray-100 shadow-xl top-0 sticky"><span className="block lg:inline">🏥</span> Total</th>
                             <th className="p-1 md:p-2 text-sm md:text-lg border-gray-300 text-gray-900 text-center bg-gray-100 shadow-xl top-0 sticky"><span className="block lg:inline">😄</span> Sembuh</th>
                             <th className="p-1 md:p-2 text-sm md:text-lg border-gray-300 text-gray-900 text-center bg-gray-100 shadow-xl top-0 sticky"><span className="block lg:inline">😢</span> Meninggal</th>
-                            <th className="p-1 md:p-2 text-sm md:text-lg border-gray-300 text-gray-900 text-center bg-gray-100 shadow-xl top-0 sticky"><span className="block lg:inline">😷</span> Aktif</th>                          
+                            <th className="p-1 md:p-2 text-sm md:text-lg border-gray-300 text-gray-900 text-center bg-gray-100 shadow-xl top-0 sticky"><span className="block lg:inline">🤒</span> Aktif</th>                          
                         </tr>
                     </thead>
                     <tbody>
@@ -164,7 +168,7 @@ export default function Global({ world_data, world_pop_data, world_confirmed, wo
                                 return (
                                     <tr key={value.Country_Region}>
                                         <td className="p-2 border text-gray-800 font-semibold border-gray-300 text-center">{i}</td>
-                                        <td className="p-2 border font-bold border-gray-300"><Link href={`/global/${value.Country_Region}`}><a className="text-blue-600 hover:underline">{value.Country_Region}</a></Link></td>
+                                        <td className="p-2 border font-bold border-gray-300"><Link href={`/global/${value.Country_Region}`}><a className="text-blue-600 hover:underline" target="_blank">{value.Country_Region}</a></Link></td>
                                         <td className="p-2 border confirmed border-blue-500">{value.Confirmed !== null ? parseNum(value.Confirmed) : "Tidak Diketahui"}</td>
                                         <td className="p-2 border recovered border-green-500">{value.Recovered !== null ? parseNum(value.Recovered) : "Tidak Diketahui"}</td>
                                         <td className="p-2 border deaths text-gray-800 border-red-500">{value.Deaths !== null ? parseNum(value.Deaths) : "Tidak Diketahui"}</td>
