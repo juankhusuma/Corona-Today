@@ -48,7 +48,7 @@ export default function National({national_pop, province_data, national_data}: P
                 <title>Corona Today | {province}</title>
             </Head>
             
-            {!showEasterEgg && <h1 className="title text-center text-gray-900 mb-5 pb-1 border-b border-gray-300">{province}</h1>}
+            {!showEasterEgg && <h1 className="title text-center text-blue-600 mb-5 pb-1 border-b border-gray-300">{province}</h1>}
             {showEasterEgg && <h1 className="title text-center text-pink-500 mb-5 pb-1 border-b border-gray-300"><p>{"\{\\_/}"}</p><p>{"( •_•)"}</p><p>{"/v  v"}</p></h1>}
             
             <h2 className="subtitle mt-10 mb-5 md:mb-10">National Leaderboard</h2>

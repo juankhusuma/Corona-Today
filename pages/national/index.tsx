@@ -110,7 +110,7 @@ export default function Global({ world_pop_data, national_pop, province_data, na
                 <title>Corona Today | National Case</title>
             </Head>
             <img src="/corona.svg" className="w-7 md:w-10 animate-pulse"/>
-            <h1 className="title pb-1 border-b text-gray-900 mb-2 border-gray-300">National Case</h1>
+            <h1 className="title pb-1 border-b text-blue-600 mb-2 border-gray-300">National Case</h1>
             <h2 className="subtitle w-3/4 md:w-1/2 lg:w-1/3 text-center text-gray-700 mb-5">Jumlah kasus positif, kematian, dan kesembuhan di Indonesia</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-3">

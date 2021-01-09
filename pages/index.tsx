@@ -56,7 +56,7 @@ export default function Home() {
                 </div>
               </a>
             </Link>
-            <Link href="/pencegahan">
+            <Link href="/prevention">
               <a>
                 <div className="card p-5 hover:shadow-none transition-shadow m-2 max-w-md h-28">
                   <h1 className="text-sm sm:text-lg font-bold text-gray-700"><span className="mr-2">😷</span> Pencegahan <span className="text-bold text-lg">&rarr;</span></h1>

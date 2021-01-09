@@ -33,6 +33,7 @@ export default function CountryStat({data, code}: Props): JSX.Element {
     let total_deaths = 0;
     let country_code;
     let extra_code = {
+        "Brunei":"bn",
         "US": "us",
         "United Kingdom": "gb",
         "Cote d'Ivoire": "ci",
@@ -113,7 +114,7 @@ export default function CountryStat({data, code}: Props): JSX.Element {
             </Head>
             <img src={`https://flagcdn.com/${country_code}.svg`} className="w-28 mt-3 mb-10 shadow-2xl animate-bounce"/>
             
-            <h1 className="title text-center text-gray-900 mb-5 pb-1 border-b border-gray-300">{country}</h1>
+            <h1 className="title text-center text-blue-600 mb-5 pb-1 border-b border-gray-300">{country}</h1>
             <h2 className="subtitle mt-10 mb-5 md:mb-10">🌐 Global Leaderboard</h2>
             <div className=" grid grid-cols-1 md:grid-cols-2 text-gray-700">
                 
