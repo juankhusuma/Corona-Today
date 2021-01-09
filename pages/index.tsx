@@ -1,18 +1,11 @@
 import Head from 'next/head';
 import Link from 'next/link';
-function Icon() {
-  return (
-    <span>
-       
-    </span>
-  );
-}
 
 export default function Home() {
   return (
     <div className="font-Pro">
       <Head>
-        <title>Covid-19</title>
+        <title>Corona Today | Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-col justify-around items-center w-full h-full mt-8">

@@ -1,15 +1,11 @@
-export default function CountryStat({country}) {
+import { useRouter } from 'next/router';
+
+export default function CountryStat() {
+    const router = useRouter();
+    const {country} = router.query;
+
     return (
         <h1>{country}</h1>
     );
 
-}
-
-export async function getStaticPaths({ params }) {
-    console.log(params);
-    return ({
-        props: {
-            country: params
-        }
-    });
 }
