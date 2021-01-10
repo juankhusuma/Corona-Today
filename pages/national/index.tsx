@@ -190,7 +190,7 @@ export default function Global({ world_pop_data, national_pop, province_data, na
 }
 
 //Make API calls to obtain data
-export async function getStaticProps({ params }): Promise<{ props: { world_pop_data: WorldPopData; national_pop: NationalPopData; province_data: ProvinceData[]; national_data: NationalData[]; }; }> {
+export async function getStaticProps({ params }): Promise<{ props: { world_pop_data: WorldPopData; national_pop: NationalPopData; province_data: ProvinceData[]; national_data: NationalData[]; }; revalidate: number; }> {
 
 
     let world_pop_req = await fetch("https://world-population.p.rapidapi.com/worldpopulation", {
@@ -224,7 +224,8 @@ export async function getStaticProps({ params }): Promise<{ props: { world_pop_d
                 national_pop: national_pop_data,
                 province_data: province_data,
                 national_data: national_data,
-            }
+            },
+            revalidate: 60,
         }
     );
 }

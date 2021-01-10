@@ -169,7 +169,7 @@ export default function National({national_pop, province_data, national_data}: P
     );
 }
 
-export async function getStaticProps({ params }): Promise<{ props: { national_pop: NationalPopData; province_data: ProvinceData[]; national_data: NationalData[]; }; }> {
+export async function getStaticProps({ params }): Promise<{ props: { national_pop: NationalPopData; province_data: ProvinceData[]; national_data: NationalData[]; }; revalidate: number; }> {
 
     let national_pop_req = await fetch("https://world-population.p.rapidapi.com/population?country_name=Indonesia", {
         "method": "GET",
@@ -192,7 +192,8 @@ export async function getStaticProps({ params }): Promise<{ props: { national_po
                 national_pop: national_pop_data,
                 province_data: province_data,
                 national_data: national_data,
-            }
+            },
+            revalidate: 60,
         }
     );
 }

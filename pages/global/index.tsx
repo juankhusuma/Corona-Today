@@ -174,7 +174,7 @@ export default function National({ world_data, world_pop_data, world_confirmed, 
                                 return (
                                     <tr key={value.Country_Region}>
                                         <td className="p-2 border text-gray-800 font-semibold border-gray-300 text-center">{i}</td>
-                                        <td className="p-2 border font-bold border-gray-300"><Link href={`/global/${value.Country_Region}`}><a className="text-blue-600 hover:underline" target="_blank">{value.Country_Region}</a></Link></td>
+                                        <td className="p-2 border font-bold border-gray-300"><Link href={`/global/${value.Country_Region.replace(/\*/g,'')}`}><a className="text-blue-600 hover:underline" target="_blank">{value.Country_Region.replace(/\*/g,'')}</a></Link></td>
                                         <td className="p-2 border confirmed border-blue-500">{value.Confirmed !== null ? parseNum(value.Confirmed) : "Tidak Diketahui"}</td>
                                         <td className="p-2 border recovered border-green-500">{value.Recovered !== null ? parseNum(value.Recovered) : "Tidak Diketahui"}</td>
                                         <td className="p-2 border deaths text-gray-800 border-red-500">{value.Deaths !== null ? parseNum(value.Deaths) : "Tidak Diketahui"}</td>
@@ -194,7 +194,7 @@ export default function National({ world_data, world_pop_data, world_confirmed, 
 
 
 //Make API calls to obtain data
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params }): Promise<{ props: { world_data: CountryData[]; world_pop_data: WorldPopData; world_confirmed: WorldPositive; world_recovered: any; world_deaths: any; }; revalidate: number; }> {
     let world_case_req = await fetch("https://jdk-covid-proxy.herokuapp.com/global");
     let _world_positive = await fetch("https://jdk-covid-proxy.herokuapp.com/global-positif");
     let _world_positive_data: WorldPositive = await _world_positive.json();
@@ -212,15 +212,14 @@ export async function getStaticProps({ params }) {
     });
 
     let world_pop_data: WorldPopData = await world_pop_req.json();
-    return (
-        {
-            props: {
-                world_data: world_case_data,
-                world_pop_data: world_pop_data,
-                world_confirmed: _world_positive_data,
-                world_recovered: _world_recovered_data,
-                world_deaths: _world_deaths_data,
-            }
-        }
-    );
+    return {
+        props: {
+            world_data: world_case_data,
+            world_pop_data: world_pop_data,
+            world_confirmed: _world_positive_data,
+            world_recovered: _world_recovered_data,
+            world_deaths: _world_deaths_data,
+        },
+        revalidate: 60,
+    }
 }

@@ -32,7 +32,7 @@ export default function CountryStat({data, code}: Props): JSX.Element {
     let total_recovered = 0;
     let total_deaths = 0;
     let country_code;
-    let extra_code = {
+    const extra_code = {
         "Brunei":"bn",
         "US": "us",
         "United Kingdom": "gb",
@@ -55,12 +55,13 @@ export default function CountryStat({data, code}: Props): JSX.Element {
         "Uzbekistan": "uz",
         "Korea, South": "kr",
         "Singapore": "sg",
-        "Sri Lanka": "sk",
+        "Sri Lanka": "lk",
         "Uganda": "ug",
         "Zambia": "zm",
         "Uruguay": "uy",
         "Sudan": "sd",
-        "Congo (Kinshasa)": "cd",
+        "Congo (Brazzaville)": "cd",
+        "Congo (Kinshasa)": "cg",
         "Zimbabwe": "zw",
         "Tajikistan": "tj",
         "Cabo Verde": "cv",
@@ -77,7 +78,7 @@ export default function CountryStat({data, code}: Props): JSX.Element {
         "Yemen": "ye",
         "Vietnam": "vn",
         "Sao Tome and Principe": "st",
-        "Taiwan*": "tw",
+        "Taiwan": "tw",
         "Tanzania": "tz",
         "Seychelles": "sc",
         "Timor-Leste": "tl",
@@ -85,19 +86,26 @@ export default function CountryStat({data, code}: Props): JSX.Element {
         "Solomon Islands": "sb",
         "Vanuatu": "vu",
         "Samoa": "ws",
-        "South Africa": "za"
+        "South Africa": "za",
+        "Bolivia": "bo",
+        "Holy See": "va",
+        "Iran": "ir",
+        "Moldova": "md",
+        "Russia": "ru",
+        "Senegal": "sn",
     }
 
 
     for (let i = 0; i < data.length; i++) {
             if (data[i].attributes.Country_Region === country) {
-                regional_stat = data[i]
+                regional_stat = data[i];
+            } else if (data[i].attributes.Country_Region === "Taiwan*" && country === "Taiwan") {
+                regional_stat = data[i];
             }
         if (country_code === undefined) {
             if (code[i].Name === country || code[i].Code === country) {
                 country_code = code[i].Code.toLowerCase();
-            }
-            else {
+            }else {
                 country_code = extra_code[country.toString()];
             }
         }
@@ -105,6 +113,10 @@ export default function CountryStat({data, code}: Props): JSX.Element {
         total_recovered += data[i].attributes.Recovered;
         total_deaths += data[i].attributes.Deaths;
     }
+    if (regional_stat.attributes.Confirmed === null) { regional_stat.attributes.Confirmed = 0 }
+    if (regional_stat.attributes.Deaths === null) { regional_stat.attributes.Deaths = 0 }
+    if (regional_stat.attributes.Recovered === null) { regional_stat.attributes.Recovered = 0 }
+    if (regional_stat.attributes.Active === null) { regional_stat.attributes.Active = 0 }
 
     return (
         <div className="flex flex-col items-center p-3 font-Pro pt-10">
@@ -118,7 +130,7 @@ export default function CountryStat({data, code}: Props): JSX.Element {
                 <meta name="robots" content="index, follow" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </Head>
-            <img src={`https://flagcdn.com/${country_code}.svg`} className="w-28 mt-3 mb-10 shadow-2xl animate-bounce"/>
+            {country_code !== undefined && <img src={`https://flagcdn.com/${country_code}.svg`} className="w-28 mt-3 mb-10 shadow-2xl animate-bounce"/>}
             
             <h1 className="title text-center text-blue-600 mb-5 pb-1 border-b border-gray-300">{country}</h1>
             <h2 className="subtitle mt-10 mb-5 md:mb-10">🌐 Global Leaderboard</h2>
@@ -233,7 +245,7 @@ export default function CountryStat({data, code}: Props): JSX.Element {
 
 }
 
-export async function getStaticProps({params}): Promise<{ props: { data: CountryData[]; code: CountryCode[]; }; }> {
+export async function getStaticProps({params}): Promise<{ props: { data: CountryData[]; code: CountryCode[]; }; revalidate: number; }> {
     const req = await fetch("https://jdk-covid-proxy.herokuapp.com/global");
     const data: CountryData[] = await req.json();
     const world_pop_req = await fetch("https://world-population.p.rapidapi.com/worldpopulation", {
@@ -251,14 +263,15 @@ export async function getStaticProps({params}): Promise<{ props: { data: Country
         props: {
             data: data,
             code: country_code_data,
-        }
+        },
+        revalidate: 60,
     }
 }
 
 export async function getStaticPaths() {
     const req = await fetch("https://jdk-covid-proxy.herokuapp.com/global");
     const data = await req.json();
-    const paths = data.map((item: CountryData) => { return { params: { country: item.attributes.Country_Region } } });
+    const paths = data.map((item: CountryData) => { return { params: { country: item.attributes.Country_Region.replace(/\*/g,'') } } });
 
     return {
         paths,
