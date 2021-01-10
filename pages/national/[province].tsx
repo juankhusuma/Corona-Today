@@ -43,7 +43,7 @@ export default function National({national_pop, province_data, national_data}: P
 
     return (
         <div className="flex flex-col items-center p-3 font-Pro pt-10">
-            <Link href="/global"><a className="back-btn">&larr;</a></Link>
+            <Link href="/national"><a className="back-btn">&larr;</a></Link>
             <Head>
                 <title>Corona Today | {province}</title>
             </Head>
@@ -163,7 +163,7 @@ export default function National({national_pop, province_data, national_data}: P
     );
 }
 
-export async function getServerSideProps({ params }): Promise<{ props: { national_pop: NationalPopData; province_data: ProvinceData[]; national_data: NationalData[]; }; }> {
+export async function getStaticProps({ params }): Promise<{ props: { national_pop: NationalPopData; province_data: ProvinceData[]; national_data: NationalData[]; }; }> {
 
     let national_pop_req = await fetch("https://world-population.p.rapidapi.com/population?country_name=Indonesia", {
         "method": "GET",
@@ -189,4 +189,15 @@ export async function getServerSideProps({ params }): Promise<{ props: { nationa
             }
         }
     );
+}
+
+export async function getStaticPaths() {
+    const req = await fetch("http://jdk-covid-proxy.herokuapp.com/provinsi");
+    const data = await req.json();
+    const paths = data.map((item: ProvinceData) => { return { params: { province: item.attributes.Provinsi } } });
+
+    return {
+        paths,
+        fallback: false,
+    }
 }

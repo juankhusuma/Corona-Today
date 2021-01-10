@@ -227,7 +227,7 @@ export default function CountryStat({data, code}: Props): JSX.Element {
 
 }
 
-export async function getServerSideProps({params}): Promise<{ props: { data: CountryData[]; code: CountryCode[]; }; }> {
+export async function getStaticProps({params}): Promise<{ props: { data: CountryData[]; code: CountryCode[]; }; }> {
     const req = await fetch("https://jdk-covid-proxy.herokuapp.com/global");
     const data: CountryData[] = await req.json();
     const world_pop_req = await fetch("https://world-population.p.rapidapi.com/worldpopulation", {
@@ -246,5 +246,16 @@ export async function getServerSideProps({params}): Promise<{ props: { data: Cou
             data: data,
             code: country_code_data,
         }
+    }
+}
+
+export async function getStaticPaths() {
+    const req = await fetch("https://jdk-covid-proxy.herokuapp.com/global");
+    const data = await req.json();
+    const paths = data.map((item: CountryData) => { return { params: { country: item.attributes.Country_Region } } });
+
+    return {
+        paths,
+        fallback: false,
     }
 }

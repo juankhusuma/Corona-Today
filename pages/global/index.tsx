@@ -185,8 +185,10 @@ export default function National({ world_data, world_pop_data, world_confirmed, 
     )
 }
 
+
+
 //Make API calls to obtain data
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
     let world_case_req = await fetch("https://jdk-covid-proxy.herokuapp.com/global");
     let _world_positive = await fetch("https://jdk-covid-proxy.herokuapp.com/global-positif");
     let _world_positive_data: WorldPositive = await _world_positive.json();
