@@ -111,6 +111,12 @@ export default function CountryStat({data, code}: Props): JSX.Element {
             <Link href="/global"><a className="back-btn">&larr;</a></Link>
             <Head>
                 <title>Corona Today | {country}</title>
+                <link rel="icon" href="/favicon.ico" />
+                <meta name="description" content={`Informasi seputar penyebaran virus COVID-19 di ${country}`} />
+                <meta httpEquiv ="Content-Type" content="text/html;charset=UTF-8" />
+                <meta name="keywords" content="Corona Virus covid-19 COVID 19 covid 19 COVID-19" />
+                <meta name="robots" content="index, follow" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </Head>
             <img src={`https://flagcdn.com/${country_code}.svg`} className="w-28 mt-3 mb-10 shadow-2xl animate-bounce"/>
             

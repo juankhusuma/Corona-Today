@@ -7,6 +7,12 @@ export default function Prevention() {
         <div className="flex flex-col items-center justify-center pt-10 font-Pro">
             <Head>
                 <title>Corona Today | Pencegahan</title>
+                <link rel="icon" href="/favicon.ico" />
+                <meta name="description" content="Hal-hal yang dapat dilakukan untuk mencegah penyebaran COVID-19" />
+                <meta httpEquiv ="Content-Type" content="text/html;charset=UTF-8" />
+                <meta name="keywords" content="Corona Virus covid-19 COVID 19 covid 19 COVID-19" />
+                <meta name="robots" content="index, follow" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </Head>
             <Link href="/"><a className="back-btn">&larr;</a></Link>
             <img src="/corona.svg" className="w-7 md:w-10 animate-pulse"/>

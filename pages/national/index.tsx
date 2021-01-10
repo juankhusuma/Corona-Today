@@ -108,6 +108,12 @@ export default function Global({ world_pop_data, national_pop, province_data, na
         <div className="flex flex-col items-center w-full p-3 md:p-10 font-Pro">
             <Head>
                 <title>Corona Today | National Case</title>
+                <link rel="icon" href="/favicon.ico" />
+                <meta name="description" content="Informasi seputar penyebaran virus COVID-19 di Indonesia" />
+                <meta httpEquiv ="Content-Type" content="text/html;charset=UTF-8" />
+                <meta name="keywords" content="Corona Virus covid-19 COVID 19 covid 19 COVID-19" />
+                <meta name="robots" content="index, follow" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </Head>
             <img src="/corona.svg" className="w-7 md:w-10 animate-pulse"/>
             <h1 className="title pb-1 border-b text-blue-600 mb-2 border-gray-300">National Case</h1>

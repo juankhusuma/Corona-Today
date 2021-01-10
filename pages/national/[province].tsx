@@ -46,6 +46,12 @@ export default function National({national_pop, province_data, national_data}: P
             <Link href="/national"><a className="back-btn">&larr;</a></Link>
             <Head>
                 <title>Corona Today | {province}</title>
+                <link rel="icon" href="/favicon.ico" />
+                <meta name="description" content={`Informasi seputar penyebaran virus COVID-19 di ${province}`} />
+                <meta httpEquiv ="Content-Type" content="text/html;charset=UTF-8" />
+                <meta name="keywords" content="Corona Virus covid-19 COVID 19 covid 19 COVID-19" />
+                <meta name="robots" content="index, follow" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </Head>
             
             {!showEasterEgg && <h1 className="title text-center text-blue-600 mb-5 pb-1 border-b border-gray-300">{province}</h1>}
